@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\BrandModel;
 use App\Models\CategoryModel;
+use App\Models\HomeModel;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -42,19 +44,19 @@ class CategoryController extends Controller
         [
             'category_product_name' =>'required|min:5',
             'category_product_image'=>'required',
-            
+
         ],
         [
             'category_product_name.required' =>'Tên danh mục sản phẩm bắt buộc ',
             'category_product_image.required' =>'Hình ảnh danh mục sản phẩm bắt buộc ',
-           
+
         ]
     );
 
       $data = array();
       $data['category_name'] = $request->category_product_name;
       $get_img = $request->file('category_product_image');
-       
+
       if ($get_img) {
           $get_name_image =$get_img->getClientOriginalName();
           $name_img= current(explode(',',$get_name_image));
@@ -92,7 +94,7 @@ class CategoryController extends Controller
       $data = array();
       $data['category_name'] = $request->category_product_name;
       $get_img = $request->file('category_product_image');
-       
+
       if ($get_img) {
           $get_name_image =$get_img->getClientOriginalName();
           $name_img= current(explode(',',$get_name_image));
@@ -103,7 +105,6 @@ class CategoryController extends Controller
           Session::put('message', 'Successfully');
           return Redirect::to('all-category');
       }
-      $data['category_image']= '';
       $this->var_category->Update_category($category_product_id, $data);
       Session::put('message', 'Successfully');
       Session::put('cate_id', $category_product_id);
@@ -117,16 +118,18 @@ class CategoryController extends Controller
      }
 
      public function show_category_home($category_id ,Request $request) {
-      $category_product= $this->var_category->Getcategory();
-      $brand_product= $this->var_brand->GetBrand();
+      $category_product= HomeModel::Getcategory();
+      $brand_product= HomeModel::GetBrand();
       $category_by_id =$this->var_category->Get_Category_ById($category_id);
+      $data_js = Product::select('product_name','product_view','product_id','product_price_sell','product_image')->where('category_id', $category_id)->get();
       $url_canonical = $request->url();
       // $category_title_name = DB::table('tbl_category_product')->where('tbl_category_product.category_id',$category_id)->limit(1)->get();
       return view('client.shop.shop-by-category')
       ->with('brands', $brand_product)
       ->with('category', $category_product)
       ->with('category_by_id', $category_by_id)
-      ->with('url_canonical',$url_canonical);
+      ->with('url_canonical',$url_canonical)
+      ->with('data_js', $data_js);
 
     //   $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
     //   $brand_product = DB::table('tbl_brand_product')->where('brand_status','1')->orderBy('brand_id','desc')->get();

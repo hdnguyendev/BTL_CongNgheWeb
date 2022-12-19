@@ -10,6 +10,7 @@
                 <div class="row mb-50">
                     <div class="col-lg-12">
                         <h3>LỊCH SỬ MUA HÀNG</h3>
+                        <br>
                         <div class="checkout-style-1 ">
                             <div class="checkout-table table-responsive">
                                 <table class="table">
@@ -24,13 +25,13 @@
                                     </thead>
                                     <tbody>
                                         @if (isset($history_order))
-                                       
-                                        @php 
+
+                                        @php
                                         $total = 0;
                                         $i=1;
                                         @endphp
                                         @foreach ($history_order as $order)
-                                        @php 
+                                        @php
                                         $subtotal = $order->product_price*$order->product_sales_quantity;
                                         $total+=$subtotal;
                                         @endphp
@@ -38,13 +39,13 @@
                                         <td>{{$i++}}</td>
                                         <td>{{$order->order_code}}</td>
                                         <td>{{$order->created_at}}</td>
-                                        
-                                     <td><a href="{{URL::to('view-detail-history/'.$order->order_code)}}">Xem chi tiết</a></td>
+                                        <td>{{ $order->order_status == 1 ? "Đang chờ xử lí"  : "Đơn hàng đã được xử lí - Đang giao hàng"}}</td>
+                                         <td><a href="{{URL::to('view-detail-history/'.$order->order_code)}}">Xem chi tiết</a></td>
                                       </tr>
                                       @endforeach
-                                           
+
                                       @else
-                                           <tr colspan="6">Không có đơn hàng!</tr> 
+                                           <tr colspan="6">Không có đơn hàng!</tr>
                                       @endif
                                     </tbody>
                                 </table>

@@ -35,26 +35,27 @@
                                                         </div>
                                                         <div class="product-content media-body">
                                                             <h5 class="title"><a
-                                                                    href="">{{ $key['product_name'] }}</a></h5>
+                                                                    href="{{ URL::to('/chi-tiet-san-pham/' . $key['product_id']) }}">{{ $key['product_name'] }}</a></h5>
                                                             <span>UG 0123</span>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td style="width:200px">
-                                                    <form action="{{ URL::to('/update-cart') }}" method="POST">
+                                                    <form action="{{ URL::to('/update-cart/' . $key['product_id'] ) }}" method="POST">
                                                         @csrf
                                                         <div class="product-quantity d-inline-flex">
                                                             {{-- <button type="button" id="sub" class="sub"><i class="mdi mdi-minus"></i></button> --}}
                                                             <input class="cart_quantity" type="number" min="1"
-                                                                name="" value="{{ $key['product_qty'] }}">
+                                                                name="product_qty" value="{{ $key['product_qty'] }}">
                                                             {{-- <button type="button" id="add" class="add"><i class="mdi mdi-plus"></i></button> --}}
-                                                            <input type="submit" value="Cập nhật" name="update_qty" style="width:100%"
-                                                                class="check_out btn btn-info btn-sm">
+                                                            <input type="submit" value="Cập nhật" name="update_qty"
+                                                                style="width:100%" class="check_out btn btn-info btn-sm">
                                                         </div>
                                                     </form>
                                                 </td>
                                                 <td>
-                                                    <p class="price">{{ number_format($key['product_price'], 0, ',', '.') }}
+                                                    <p class="price">
+                                                        {{ number_format($key['product_price'], 0, ',', '.') }}
                                                     </p>
                                                 </td>
                                                 <td>
@@ -62,7 +63,7 @@
                                                 </td>
                                                 <td>
                                                     <ul class="action">
-                                                        <li><a href="{{URL::to('/del-product/'.$key['product_id']) }}"
+                                                        <li><a href="{{ URL::to('/del-product/' . $key['product_id']) }}"
                                                                 title="cancel" class="icon"><i
                                                                     class="fa-solid fa-trash-can"></i></a></li>
 
@@ -75,6 +76,7 @@
                                             <td colspan="7" style="text-align: center; font-size:16px">
 
                                                 @php
+                                                     $_SESSION['quantity'] = 0;
                                                     echo 'Làm ơn thêm sản phẩm vào giỏ hàng';
                                                 @endphp
 
@@ -92,13 +94,16 @@
                                         @csrf
                                         <div class="single-form form-default d-flex">
                                             <div class="form-input form">
-                                                <input type="text" name="coupon" value="{{ isset($_SESSION['coupon']) ? $_SESSION['coupon']['coupon_code'] :   "" }}" placeholder="Mã giảm giá">
+                                                <input type="text" name="coupon"
+                                                    value="{{ isset($_SESSION['coupon']) ? $_SESSION['coupon']['coupon_code'] : '' }}"
+                                                    placeholder="Mã giảm giá">
                                             </div>
                                             @if (isset($_SESSION['coupon']))
-                                                <a href="{{ url('/unset-coupon') }}"> <button  class="btn btn-danger btn-sm " >Xóa</button>  </a>
+                                                <button class="btn btn-danger"><a class="text-white"
+                                                        href="{{ URL::to('/unset-coupon') }}"> Xóa</a></button>
                                             @endif
-                                            <input type="submit" class="btn btn-success check_coupon "
-                                                name="check_coupon" value="Áp dụng">
+                                            <input type="submit" class="btn btn-success check_coupon " name="check_coupon"
+                                                value="Áp dụng">
                                         </div>
                                     </form>
                                 </div>
@@ -116,7 +121,6 @@
                                                 $subtotal = $cart['product_price'] * $cart['product_qty'];
                                                 $total += $subtotal;
                                             @endphp
-                                           
                                         @endforeach
                                         {{ number_format($total, 0, ',', '.') }} vnđ
                                     </p>
@@ -133,15 +137,14 @@
                                         <p class="value">Mã giảm giá(-):</p>
                                         <p class="price"> {{ $_SESSION['coupon']['coupon_number'] }} %</p>
                                     </div>
-                                    <div class="single-total total-payable" >
-                                        <h6 >Tổng tiền phải trả:</h6>
+                                    <div class="single-total total-payable">
+                                        <h6>Tổng tiền phải trả:</h6>
                                         @php
                                             $total_coupon = ($total * $_SESSION['coupon']['coupon_number']) / 100;
                                         @endphp
 
-                                        <h6 >{{ number_format($total - $total_coupon, 0, ',', '.') }}VND</h6>
+                                        <h6>{{ number_format($total - $total_coupon, 0, ',', '.') }}VND</h6>
                                     </div>
-                                    
                                 @endif
 
                             </div>
@@ -152,12 +155,14 @@
                         <div class="single-btn">
                             <a href="{{ URL::to('/') }}" class="main-btn primary-btn-border">Tiếp tục mua sắm</a>
                         </div>
-                        @if (Session::get('customer_id') != null)
-                            <div class="single-btn">
-                                <a href="{{ URL::to('/checkout') }}" class="main-btn primary-btn">Thanh toán</a>
-                            </div>
-                        @else
-                            <a href="{{ URL::to('/login-client') }}" class="main-btn primary-btn">Thanh toán</a>
+                        @if ($_SESSION['carts'] != null)
+                            @if (Session::get('customer_id') != null)
+                                <div class="single-btn">
+                                    <a href="{{ URL::to('/checkout') }}" class="main-btn primary-btn">Thanh toán</a>
+                                </div>
+                            @else
+                                <a href="{{ URL::to('/login-client') }}" class="main-btn primary-btn">Thanh toán</a>
+                            @endif
                         @endif
                     </div>
                 </div>

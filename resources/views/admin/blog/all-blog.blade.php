@@ -7,25 +7,10 @@
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="title mb-30">
-              <h2>Tables</h2>
+              <h2>DANH SÁCH BÀI VIẾT</h2>
             </div>
           </div>
-          <!-- end col -->
-          <div class="col-md-6">
-            <div class="breadcrumb-wrapper mb-30">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#0">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Tables
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-          <!-- end col -->
+
         </div>
         <!-- end row -->
       </div>
@@ -36,18 +21,15 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card-style mb-30">
-              <h6 class="mb-10">DANH SÁCH THƯƠNG HIỆU SẢN PHẨM</h6>
-              <p class="text-sm mb-20">
-                
-              </p>
+
               <div class="table-wrapper table-responsive">
                 <table class="table">
                   <thead>
                     <tr>
-                        <th><h6>ID</th>
-                        <th><h6>Tên bài viết</h6></th>
-                        <th><h6>Ảnh</h6></th>
-                        <th><h6>Chỉnh sửa/Xoá</h6></th>
+                        <th>Mã bài viết</th>
+                        <th>Tên bài viết</th>
+                        <th>Ảnh</th>
+                        <th  class="text-center">Hành động</th>
                     </tr>
                     <!-- end table row-->
                   </thead>
@@ -62,13 +44,13 @@
                     </div>
                       </td>
                      <td>
-                      <img src="{{asset('upload/blogImage/'.$all_blog->blog_image)}}" alt="#" width="100" height="100"> 
+                      <img src="{{asset('upload/blogImage/'.$all_blog->blog_image)}}" alt="#" width="100" height="100">
                      </td>
-                      
+
                       <td>
-                        <div class="action">
-                            <a href="{{URL::to('edit-blog/'.$all_blog->blog_id)}}" class="mr-10" >Sửa</a>
-                             <a  onclick="return confirm('Are you sure to delete?')" href="{{URL::to('delete-blog/'.$all_blog->blog_id)}}" style="color:red" ><i class="fas fa-times"></i></a>
+                        <div class="text-center">
+                            <a href="{{URL::to('edit-blog/'.$all_blog->blog_id)}}" class="btn btn-info text-white" >Sửa</a>
+                             <a  onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này không 😥?')" href="{{URL::to('delete-blog/'.$all_blog->blog_id)}}" class="btn btn-danger" ><i class="fas fa-times"></i></a>
                         </div>
                       </td>
                     </tr>

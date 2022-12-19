@@ -21,7 +21,7 @@ class AuthController extends Controller
                 'admin_phone'=>'required|max:255',
                 'admin_password'=>'required|max:255',
 
-                
+
             ],
             [
                 'admin_name.required' =>' Tên bắt buộc nhập vào',
@@ -34,7 +34,7 @@ class AuthController extends Controller
                 'admin_password.required' =>'Mật khẩu bắt buộc nhập vào  ',
                 'admin_password.max:255' =>' Mật khẩu không quá 255 ký tự ',
 
-               
+
             ]
         );
    $data = $request->all();
@@ -53,20 +53,17 @@ class AuthController extends Controller
     public function login(Request $request){
         $request->validate(
             [
-            
+
                 'admin_email'=>'required|email|max:255',
                 'admin_password'=>'required|max:255',
 
-                
+
             ],
             [
                 'admin_email.required' =>' Email bắt buộc nhập vào',
                 'admin_email.max:255' =>'Email không quá 255 ký tự ',
                 'admin_password.required' =>'Mật khẩu bắt buộc nhập vào ',
                 'admin_password.max:255' =>' Mật khẩu không quá 255 ký tự ',
-               
-
-               
             ]
         );
         $data =$request->all();
@@ -74,13 +71,13 @@ class AuthController extends Controller
             return redirect::to('/dashboard');
          }
          else{
-            return redirect::to('/login-auth')->with('message_login','Đăng nhập thất bại! Email hoặc mật khẩu sai! '); 
+            return redirect::to('/login-auth')->with('message_login','Đăng nhập thất bại! Email hoặc mật khẩu sai! ');
          }
 
-      
+
     }
     public function logout_auth(){
         Auth::logout();
         return Redirect::to('/login-auth');
-    }    
+    }
 }

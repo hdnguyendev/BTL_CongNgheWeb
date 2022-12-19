@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //HOME
-Route::get('/',[HomeController::class,'index']);
+Route::get('/',[HomeController::class,'index'])->name('home');
 
 //ADMIN
 Route::get('/admin',[AdminController::class,'index']);
@@ -112,7 +112,7 @@ Route::get('/chi-tiet-san-pham/{product_id}',[ProductController::class,'detail_p
 //SHOP
 Route::get('/shop',[HomeController::class,'shop']);
 // Danh muc san pham va trang chu
-Route::get('/danh-muc-san-pham/{category_id}',[CategoryController::class,'show_category_home']);
+Route::get('/danh-muc-san-pham/{category_id}',[CategoryController::class,'show_category_home'])->name('danhmucsp');
 // Thuong hieu san pham va trang chu
 Route::get('/thuong-hieu-san-pham/{brand_id}',[BrandController::class,'show_brand_home']);
 
@@ -129,14 +129,14 @@ Route::get('/delete-cart/{rowId}',[CartController::class,'delete_cart']);
 Route::post('/update-cart-quantity',[CartController::class,'update_cart_quantity']);
 //AJAX
 Route::post('/add-cart-ajax',[CartController::class,'add_cart_ajax']);
-Route::post('/update-cart',[CartController::class,'update_cart']);
+Route::post('/update-cart/{product_id}',[CartController::class,'update_cart']);
 Route::get('/gio-hang',[CartController::class,'gio_hang']);
 Route::get('/del-product/{product_id}',[CartController::class,'delete_product']);
 Route::get('/del-all-product',[CartController::class,'delete_all_product']);
 
 
 Route::post('/add-cart-db/{customer_id}',[CartController::class,'add_cart_db']);
-//COUPON 
+//COUPON
 Route::post('/check-coupon',[CartController::class,'check_coupon']);
 Route::get('/unset-coupon',[CouponController::class,'unset_coupon']);
 Route::get('/insert-coupon',[CouponController::class,'insert_coupon']);
@@ -166,9 +166,9 @@ Route::get('/delete-order/{order_code}',[OrderController::class,'delete_order'])
 //SEND MAIL
 Route::get('/send-mail',[HomeController::class,'send_mail']);
 
-//Login  google
-Route::get('/login-google',[HomeController::class],'login_google');
-Route::get('/google/callback',[HomeController::class],'callback_google');
+// //Login  google
+// Route::get('/login-google',[HomeController::class],'login_google');
+// Route::get('/google/callback',[HomeController::class],'callback_google');
 
 //EDIT PROFILE ADMIN
 Route::get('/edit-profile/{admin_id}',[AdminController::class,'edit_profile']);
@@ -223,16 +223,16 @@ Route::get('/view-detail-history/{order_code}',[OrderController::class,'view_det
 
 //SETTING LAYOUT
 
-Route::get('/setting-home',[AdminController::class,'setting_home']); 
+Route::get('/setting-home',[AdminController::class,'setting_home']);
 
-Route::get('/wishlist',[HomeController::class,'wishlist']);        
+Route::get('/wishlist',[HomeController::class,'wishlist']);
 
 //SEND MAIL VOUCHER
-Route::get('/send-coupon',[MailController::class,'send_coupon']); 
-Route::get('/mail-coupon',[MailController::class,'mail_example']); 
+Route::get('/send-coupon',[MailController::class,'send_coupon']);
+Route::get('/mail-coupon',[MailController::class,'mail_example']);
 
 //FORGET PASS
-Route::get('/forget-pass',[MailController::class,'forget_password']); 
+Route::get('/forget-pass',[MailController::class,'forget_password']);
 Route::post('/send-mail-pass',[MailController::class,'send_password']);
-Route::get('/update-new-pass',[MailController::class,'update_new_password']); 
-Route::post('/reset-new-pass',[MailController::class,'reset_new_password']); 
+Route::get('/update-new-pass',[MailController::class,'update_new_password']);
+Route::post('/reset-new-pass',[MailController::class,'reset_new_password']);

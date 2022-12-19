@@ -7,23 +7,7 @@
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="title mb-30">
-              <h2>Form Elements</h2>
-            </div>
-          </div>
-          <!-- end col -->
-          <div class="col-md-6">
-            <div class="breadcrumb-wrapper mb-30">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#0">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item"><a href="#0">Forms</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Form Elements
-                  </li>
-                </ol>
-              </nav>
+              <h2>THÊM SẢN PHẨM MỚI</h2>
             </div>
           </div>
           <!-- end col -->
@@ -40,31 +24,28 @@
             <form action="{{URL::to('save-product')}}" method="POST" enctype="multipart/form-data">
               {{ csrf_field() }}
             <div class="card-style mb-30">
-              <h6 class="mb-25">Input Fields</h6>
+              <h6 class="mb-25">Nhập thông tin sản phẩm</h6>
               <div class="input-style-1">
-                <label>Tên danh mục</label>
-                <input type="text" name="product_name"  placeholder="Tên sản phẩm" />
+                <label>Tên sản phẩm</label>
+                <input type="text" name="product_name"  placeholder="Tên sản phẩm" required/>
               </div>
-            
+
               <div class="input-style-1">
                 <label>Giá gốc</label>
-                <input type="text"  name="product_price"  />
+                <input type="text"  name="product_price" placeholder="vnđ" required/>
               </div>
               <div class="input-style-1">
                 <label>Giá bán</label>
-                <input type="text"  name="product_price_sell"   />
+                <input type="text"  name="product_price_sell"  placeholder="vnđ" required/>
               </div>
-              <div class="input-style-1">
-                <label>Giá khuyến mãi</label>
-                <input type="text"  name="product_price_sale"  />
-              </div>
+
               <div class="input-style-1">
                 <label>Ảnh </label>
-                <input type="file" name="product_image" />
+                <input type="file" name="product_image"  required/>
               </div>
               <div class="input-style-1">
                 <label>Số lượng</label>
-                <input type="number" name="product_soluong"  placeholder="Số lượng" />
+                <input type="number" name="product_soluong"  placeholder="Số lượng" required/>
               </div>
               <div class="input-style-1">
                 <label>Nội dung</label>
@@ -104,7 +85,7 @@
                   </select>
                 </div>
               </div>
-              
+
               <button type="submit" name="add_product" class="btn btn-success">Submit</button>
             </div>
             </form>

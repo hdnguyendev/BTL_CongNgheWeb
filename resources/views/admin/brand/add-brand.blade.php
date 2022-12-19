@@ -7,26 +7,11 @@
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="title mb-30">
-              <h2>Form Elements</h2>
+              <h2>THÊM MỚI THƯƠNG HIỆU</h2>
             </div>
           </div>
           <!-- end col -->
-          <div class="col-md-6">
-            <div class="breadcrumb-wrapper mb-30">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#0">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item"><a href="#0">Forms</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Form Elements
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-          <!-- end col -->
+
         </div>
         <!-- end row -->
       </div>
@@ -40,15 +25,15 @@
             <form action="{{URL::to('save-brand')}}" method="POST" enctype="multipart/form-data">
             @csrf
               <div class="card-style mb-30">
-              <h6 class="mb-25">Input Fields</h6>
+              <h6 class="mb-25">Điền thông tin thương hiệu</h6>
               <div class="input-style-1">
                 <label>Tên thương hiệu</label>
-                <input type="text" name="brand_product_name" placeholder="Thương hiệu" />
+                <input type="text" name="brand_product_name" placeholder="Thương hiệu" required/>
               </div>
-              
+
               <div class="input-style-1">
                 <label>Ảnh </label>
-                <input type="file" name="brand_product_image" placeholder="Full Name" />
+                <input type="file" name="brand_product_image" required/>
               </div>
               <div class="select-style-2">
                 <div class="select-position">
@@ -59,11 +44,11 @@
                   </select>
                 </div>
               </div>
-            
-              <button type="submit" name="add_brand_product"class="main-btn success-btn rounded-md btn-hover" >Thêm</button > 
+
+              <button type="submit" name="add_brand_product"class="main-btn success-btn rounded-md btn-hover" >Thêm</button >
             </div>
             </form>
-           
+
           </div>
           <!-- end col -->
         </div>

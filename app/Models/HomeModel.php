@@ -10,12 +10,15 @@ use Illuminate\Support\Facades\DB;
 class HomeModel extends Model
 {
     use HasFactory;
-    public function Getcategory(){
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id','asc')->get();
+    public static function Getcategory(){
+
+        $cate_product = DB::select('SELECT C.category_id, C.category_name, C.category_image, C.category_status, COUNT(P.product_id) as quantity FROM tbl_category_product as C, tbl_product as P WHERE P.category_id= C.category_id GROUP BY C.category_id, C.category_name, C.category_image, C.category_status ');
+        // $cate_product = DB::table('tbl_category_product')->orderBy('category_id','asc')->get();
         return $cate_product;
     }
-    public function Getbrand(){
-        $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','asc')->get();
+    public static function Getbrand(){
+        $brand_product = DB::select('SELECT B.brand_id, B.brand_name, B.brand_image, B.brand_status, COUNT(P.product_id) as quantity FROM tbl_brand_product as B, tbl_product as P WHERE P.category_id= B.brand_id GROUP BY B.brand_id, B.brand_name, B.brand_image, B.brand_status ');
+        // $brand_product = DB::table('tbl_brand_product')->orderBy('brand_id','asc')->get();
         return $brand_product;
     }
     public function Show_all_product(){
@@ -45,5 +48,5 @@ class HomeModel extends Model
          ->where('tbl_category_product.category_id','4')->inRandomOrder()->paginate(4);
          return $keyboard;
      }
-    
+
 }

@@ -7,26 +7,11 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="title mb-30">
-                            <h2>Form Elements</h2>
+                            <h2>CHI PHÍ VẬN CHUYỂN</h2>
                         </div>
                     </div>
                     <!-- end col -->
-                    <div class="col-md-6">
-                        <div class="breadcrumb-wrapper mb-30">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">
-                                        <a href="#0">Dashboard</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#0">Forms</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">
-                                        THÔNG TIN VẬN CHUYỂN
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                    <!-- end col -->
+
                 </div>
                 <!-- end row -->
             </div>
@@ -41,7 +26,7 @@
                             @csrf
 
                             <div class="card-style mb-30">
-                                <h6 class="mb-25">Input Fields</h6>
+                                <h6 class="mb-25">Thêm phí vận chuyển</h6>
 
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Chọn thành phố</label>

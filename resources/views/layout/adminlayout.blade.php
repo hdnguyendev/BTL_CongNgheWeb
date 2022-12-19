@@ -2,24 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon" />
+    <title> @yield('title')</title>
     <!-- ========== All CSS files linkup ========= -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/LineIcons.css') }}" />
-    {{-- <link rel="stylesheet" href="{{asset('backend/assets/css/quill/bubble.css')}}" />
-    <link rel="stylesheet" href="{{asset('backend/assets/css/quill/snow.css')}}" />
-    <link rel="stylesheet" href="{{asset('backend/assets/css/fullcalendar.css')}}" />
-    <link rel="stylesheet" href="{{asset('backend/assets/css/morris.css')}}" />
-    <link rel="stylesheet" href="{{asset('backend/assets/css/datatable.css')}}" /> --}}
     <link rel="stylesheet" href="{{ asset('backend/assets/css/main.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <meta name="csrf-token" content="{{ csrf_field() }}">
+    <meta name="csrf-token" content="{{ csrf_field() }}"/>
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 </head>
@@ -35,7 +30,24 @@
         </div>
         <nav class="sidebar-nav">
             <ul>
+                <li class="nav-item">
 
+                    <a href="{{ URL::to('/dashboard') }}">
+                        <span class="icon">
+                            <i width="22" height="22"  class="lni lni-dashboard"></i>
+                        </span>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+
+                    <a href="{{ URL::to('/') }}" target="_blank">
+                        <span class="icon">
+                            <i width="22" height="22"  class="lni lni-plane"></i>
+                        </span>
+                        <span class="text">Đi tới ONTECH</span>
+                    </a>
+                </li>
                 <li class="nav-item nav-item-has-children">
                     <a href="#0" data-bs-toggle="collapse" data-bs-target="#category" aria-controls="category"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -51,14 +63,14 @@
                         <li>
                             <a href="{{ URL::to('add-category') }}">
                                 <span class="text">
-                                    Thêm mới danh mục <span class="pro-badge">Pro </span>
+                                    Thêm mới danh mục
                                 </span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ URL::to('all-category') }}">
                                 <span class="text">
-                                    Hiển thị tất cả <span class="pro-badge">Pro </span>
+                                    Hiển thị tất cả
                                 </span>
                             </a>
                         </li>
@@ -80,14 +92,14 @@
                         <li>
                             <a href="{{ URL::to('add-brand') }}">
                                 <span class="text">
-                                    Thêm mới thương hiệu <span class="pro-badge">Pro </span>
+                                    Thêm mới thương hiệu
                                 </span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ URL::to('all-brand') }}">
                                 <span class="text">
-                                    Hiển thị tất cả <span class="pro-badge">Pro </span>
+                                    Hiển thị tất cả
                                 </span>
                             </a>
                         </li>
@@ -109,25 +121,18 @@
                         <li>
                             <a href="{{ URL::to('add-product') }}">
                                 <span class="text">
-                                    Thêm mới sản phẩm <span class="pro-badge">Pro </span>
+                                    Thêm mới sản phẩm
                                 </span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ URL::to('all-product') }}">
                                 <span class="text">
-                                    Hiển thị tất cả <span class="pro-badge">Pro </span>
+                                    Hiển thị tất cả
                                 </span>
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ URL::to('all-product-price') }}">
-                                <span class="text">
-                                    Hiển thị giá sản phẩm <span class="pro-badge">Pro </span>
-                                </span>
-                            </a>
-                        </li>
-
+                      
                     </ul>
                 </li>
                 <li class="nav-item nav-item-has-children">
@@ -384,111 +389,8 @@
                     </div>
                     <div class="col-lg-7 col-md-7 col-6">
                         <div class="header-right">
-                            <!-- notification start -->
-                            <div class="notification-box ml-15 d-none d-md-flex">
-                                <button class="dropdown-toggle" type="button" id="notification"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="lni lni-alarm"></i>
-                                    <span>2</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notification">
-                                    <li>
-                                        <a href="#0">
-                                            <div class="image">
-                                                <img src="assets/images/lead/lead-6.png" alt="" />
-                                            </div>
-                                            <div class="content">
-                                                <h6>
-                                                    John Doe
-                                                    <span class="text-regular">
-                                                        comment on a product.
-                                                    </span>
-                                                </h6>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consect etur adipiscing
-                                                    elit Vivamus tortor.
-                                                </p>
-                                                <span>10 mins ago</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">
-                                            <div class="image">
-                                                <img src="assets/images/lead/lead-1.png" alt="" />
-                                            </div>
-                                            <div class="content">
-                                                <h6>
-                                                    Jonathon
-                                                    <span class="text-regular">
-                                                        like on a product.
-                                                    </span>
-                                                </h6>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consect etur adipiscing
-                                                    elit Vivamus tortor.
-                                                </p>
-                                                <span>10 mins ago</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- notification end -->
-                            <!-- message start -->
-                            <div class="header-message-box ml-15 d-none d-md-flex">
-                                <button class="dropdown-toggle" type="button" id="message"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="lni lni-envelope"></i>
-                                    <span>3</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="message">
-                                    <li>
-                                        <a href="#0">
-                                            <div class="image">
-                                                <img src="assets/images/lead/lead-5.png" alt="" />
-                                            </div>
-                                            <div class="content">
-                                                <h6>Jacob Jones</h6>
-                                                <p>Hey!I can across your profile and ...</p>
-                                                <span>10 mins ago</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">
-                                            <div class="image">
-                                                <img src="assets/images/lead/lead-3.png" alt="" />
-                                            </div>
-                                            <div class="content">
-                                                <h6>John Doe</h6>
-                                                <p>Would you mind please checking out</p>
-                                                <span>12 mins ago</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#0">
-                                            <div class="image">
-                                                <img src="assets/images/lead/lead-2.png" alt="" />
-                                            </div>
-                                            <div class="content">
-                                                <h6>Anee Lee</h6>
-                                                <p>Hey! are you available for freelance?</p>
-                                                <span>1h ago</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- message end -->
-                            <!-- filter start -->
-                            <div class="filter-box ml-15 d-none d-md-flex">
-                                <button class="" type="button" id="filter">
-                                    <i class="lni lni-funnel"></i>
-                                </button>
-                            </div>
-                            <!-- filter end -->
+
+
                             <!-- profile start -->
                             <div class="profile-box ml-15">
                                 <button class="dropdown-toggle bg-transparent border-0" type="button" id="profile"
@@ -510,16 +412,11 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile">
                                     <?php $admin_name = Auth::user()->admin_name;
-                                    
+
                                     $admin_id = Auth::user()->admin_id; ?>
                                     <li>
-                                        <a href="{{ URL::to('/view-profile-ad/' . $admin_id) }}">
-                                            <i class="lni lni-user"></i> Xem thông tin cá nhân
-                                        </a>
-                                    </li>
-
                                     <a href="{{ URL::to('edit-profile/' . $admin_id) }}"> <i class="lni lni-cog"></i>
-                                        Settings </a>
+                                        Thông tin cá nhân </a>
                                     </li>
                                     <li>
                                         <a href="{{ URL::to('/logout-auth') }}"> <i class="lni lni-exit"></i> Đăng

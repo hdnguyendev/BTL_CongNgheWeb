@@ -107,13 +107,13 @@ class CartController extends Controller
     //     }else{
     //         return redirect()->back()->with('error','Mã giảm giá không đúng');
     //     }
-    // }   
+    // }
     // public function gio_hang(Request $request){
 
 
 
-    //     $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id','desc')->get(); 
-    //     $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderby('brand_id','desc')->get(); 
+    //     $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id','desc')->get();
+    //     $brand_product = DB::table('tbl_brand_product')->where('brand_status','0')->orderby('brand_id','desc')->get();
     //     $url_canonical = $request->url();
     //     return view('page.cart.cart-ajax2')->with('category',$cate_product)->with('brands',$brand_product)->with('url_canonical',$url_canonical);
     // }
@@ -158,7 +158,7 @@ class CartController extends Controller
 
     //     Session::save();
 
-    // }   
+    // }
     // public function delete_product($session_id){
     //     $cart = Session::get('cart');
     //     // echo '<pre>';
@@ -210,24 +210,12 @@ class CartController extends Controller
         if ($coupon) {
             $coupon_time = $coupon->coupon_time;
             if ($coupon_time > 0) {
-                $coupon_session = isset($_SESSION['coupon']) ? $_SESSION['coupon'] : null;
-                if ($coupon_session) {
-                    $cou = array(
-                        'coupon_code' => $coupon->coupon_code,
-                        // 'coupon_condition' => $coupon->coupon_condition,
-                        'coupon_number' => $coupon->coupon_number,
-                    );
-                    $_SESSION['coupon'] = $cou;
-                } else {
-                    $cou = array(
-                        'coupon_code' => $coupon->coupon_code,
-                        // 'coupon_condition' => $coupon->coupon_condition,
-                        'coupon_number' => $coupon->coupon_number,
-
-                    );
-                    $_SESSION['coupon'] = $cou;
-                }
-                Session::save();
+                $cou = array(
+                    'coupon_code' => $coupon->coupon_code,
+                    // 'coupon_condition' => $coupon->coupon_condition,
+                    'coupon_number' => $coupon->coupon_number,
+                );
+                $_SESSION['coupon'] = $cou;
                 return redirect()->back()->with('message', 'Thêm mã giảm giá thành công');
             } else {
                 return redirect()->back()->with('error', 'Mã giảm giá đã hết lượt sử dụng');
@@ -250,7 +238,6 @@ class CartController extends Controller
     public function add_cart_ajax(Request $request)
     {
 
-        // Session::forget('cart');
         $data = $request->all();
         $carts = $_SESSION['carts'];
 
@@ -273,12 +260,7 @@ class CartController extends Controller
                 $_SESSION['carts'][$data['cart_product_id']] = $cart;
                 $_SESSION['quantity'] += $data['cart_product_qty'];
             } else {
-                // $cart[] = array(
-                //     'product_name' => $data['cart_product_name'],
-                //     'product_image' => $data['cart_product_image'],
-                //     'product_qty' => $data['cart_product_qty'],
-                //     'product_price' => $data['cart_product_price'],
-                // );
+
                 $_SESSION['carts'][$data['cart_product_id']]['product_qty'] = $data['cart_product_qty'] + $is_avaiable;
                 $_SESSION['quantity'] += $data['cart_product_qty'];
             }
@@ -305,7 +287,7 @@ class CartController extends Controller
 
                 if ($key['product_id'] == $product_id) {
                     $_SESSION['quantity'] -= $key['product_qty'];
-                    unset( $_SESSION['carts'][$id]);
+                    unset($_SESSION['carts'][$id]);
                     return redirect()->back()->with('message', 'Xóa sản phẩm thành công');
                 }
             }
@@ -314,22 +296,21 @@ class CartController extends Controller
             return redirect()->back()->with('message', 'Xóa sản phẩm thất bại');
         }
     }
-    public function update_cart(Request $request)
+    public function update_cart(Request $request, $product_id)
     {
         $data = $request->all();
-        $cart = Session::get('cart');
-        if ($cart == true) {
-            foreach ($data['cart_qty'] as $key => $qty) {
-                foreach ($cart as $session => $val) {
-                    if ($val['session_id'] == $key) {
-                        $cart[$session]['product_qty'] = $qty;
-                    }
+        $carts = $_SESSION['carts'];
+        if ($carts == true) {
+            foreach ($carts as $key) {
+                if ($key['product_id'] == $product_id) {
+                    $sl = $data['product_qty'] - $key['product_qty'];
+                    $_SESSION['carts'][$key['product_id']]['product_qty'] = $data['product_qty'];
+                    $_SESSION['quantity'] += $sl;
+                    return redirect()->back();
                 }
             }
-            Session::put('cart', $cart);
-            return redirect()->back()->with('message', 'Cập nhật số lượng thành công');
         } else {
-            return redirect()->back()->with('message', 'Cập nhật số lượng thất bại');
+            return redirect()->back();
         }
     }
     public function delete_all_product()

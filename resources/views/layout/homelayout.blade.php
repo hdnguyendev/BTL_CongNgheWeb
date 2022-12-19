@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -25,7 +24,9 @@
     <script src="{{ asset('frontend/assets/js/lightslider.js') }}"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $(document).ready(function() {
@@ -47,6 +48,10 @@
             });
         });
     </script>
+    <title>
+        @yield('title')
+
+    </title>
 </head>
 
 <body>
@@ -65,13 +70,8 @@
                 <div class="row align-items-center d-flex justify-content-between">
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="top-middle">
-                            <ul class="useful-links">
-                                <li><a href="index.html">Home</a></li>
-                                <li style="display:inline-block;">
-                                    <p>Hotline:
-                                        <i class="lni lni-phone"></i> <span>0826206225</span>
-                                    </p>
-                                </li>
+                            <ul class="useful-links text-white">
+                                <li>Liên hệ: <span><a href="tel:+84382876922">0382876922</a></span></li>
                             </ul>
                         </div>
                     </div>
@@ -83,56 +83,50 @@
                         <div class="top-end dropdown">
 
                             <div class="user dropbtn">
-                                <i class="lni lni-user"></i>
-                                <p><?php $customer_name = Session::get('customer_name');
-                                if ($customer_name) {
-                                    echo '<p>' . $customer_name . '</p>';
-                                } ?></p>
+                                <p>
+                                    <i class="lni lni-user"></i>
+
+                                    <?php $customer_name = Session::get('customer_name');
+                                    if ($customer_name) {
+                                        echo $customer_name;
+                                    } ?>
+                                </p>
                             </div>
                             @if (Session::get('customer_id') != null)
                                 <div class="dropdown-content">
                                     <a href="{{ URL::to('manage-profile-client/' . Session::get('customer_id')) }}"><i
-                                            class="fa-solid fa-user"></i>Quản lý tài khoản</a>
+                                            class="fa-solid fa-user"></i> Tài khoản của tôi</a>
 
                                     <a href="{{ URL::to('manage-puchase-order/' . Session::get('customer_id')) }}"><i
-                                            class="fa-regular fa-hand-holding-box"></i>Quản lý đơn hàng</a>
-                                    <a href="{{ URL::to('login-client') }}"><i
-                                            class="fa-solid fa-arrow-right-from-bracket"></i>Đăng xuất</a>
+                                            class="fa-sharp fa-solid fa-box"></i> Đơn hàng của tôi</a>
+
                                 </div>
                             @endif
 
                             <ul class="user-login">
-                                <li>
-                                    <?php
-                              $customer_id =Session::get('customer_id');
-                              $shipping_id =Session::get('shipping_id');
-                              if ($customer_id!=NULL && $shipping_id!=NULL) {
-                              ?>
 
-                                    <a href="{{ URL::to('checkout') }}" style="color: white;">Thanh toán</a>
-                                    <?php
-                           }  else{
-                           ?>
-                                    <a href="{{ URL::to('checkout') }}" style="color: white">Thanh toán</a>
-                                    <?php 
-                              }
-                              ?>
-                                </li>
 
                                 <li>
                                     <?php
                               $customer_id =Session::get('customer_id');
                               if ($customer_id!=NULL) {
-                              ?>
+                              ?><i class="fa-solid fa-arrow-right-from-bracket text-white"></i>
                                     <a href="{{ URL::to('logout') }}" style="color: white">Đăng xuất</a>
                                     <?php
                            }  else{
                            ?>
                                     <a href="{{ URL::to('login-client') }}" style="color: white">Đăng nhập</a>
-                                    <?php 
+
+                                    <?php
                            }
                            ?>
                                 </li>
+                                @if ($customer_id === null)
+                                    <li>
+                                        <a href="{{ URL::to('register-client') }}" style="color: white">Đăng kí</a>
+
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -203,7 +197,7 @@
                                                     0
                                                 @endif
                                             </span>
-                                            <a href="cart.html">Giỏ hàng</a>
+                                            <span>Sản phẩm</span>
                                         </div>
                                         <ul class="shopping-list">
                                             @if (isset($_SESSION['carts']))
@@ -214,14 +208,15 @@
                                      @endphp --}}
                                                 @foreach ($_SESSION['carts'] as $key)
                                                     <li>
-                                                        <a href="javascript:void(0)" class="remove"
-                                                            title="Remove this item"><i class="lni lni-close"></i></a>
+                                                        <a href="{{ URL::to('/del-product/' . $key['product_id']) }}"
+                                                            class="remove" title="Remove this item"><i
+                                                                class="lni lni-close"></i></a>
                                                         <div class="cart-img-head">
-                                                            <a class="cart-img" href="product-details.html"><img
+                                                            <a class="cart-img"
+                                                                href="{{ URL::to('/chi-tiet-san-pham/' . $key['product_id']) }}"><img
                                                                     src="{{ asset('upload/productImage/' . $key['product_image']) }}"
                                                                     alt="#"></a>
                                                         </div>
-
                                                         <div class="content">
                                                             <h4><a
                                                                     href="{{ URL::to('chi-tiet-san-pham/' . $key['product_id']) }}">
@@ -241,8 +236,8 @@
                                           <span>Total</span>
                                        @if (!isset($key))
                                        <span class="total-amount">{{ number_format( $key['product_qty']* $key['product_price'], 0, ',', '.') }}</span>
-                                        @else 
-                                        <span class="total-amount">0</span>  
+                                        @else
+                                        <span class="total-amount">0</span>
                                        @endif
                                        </div>
                                        <div class="button">
@@ -276,17 +271,15 @@
                                             <div class="row">
 
                                                 <div class="col-lg-4 col-12">
-                                                    <li><a href="product-grids.html"> {{ $cate->category_name }}</a>
+                                                    <li><a href="{{ route('danhmucsp', [$cate->category_id]) }}">
+                                                            {{ $cate->category_name }}
+                                                            <img src="{{ asset('upload/categoryImage/' . $cate->category_image) }}"
+                                                                alt="" style="width: 100px; height:90px"></a>
                                                     </li>
                                                 </div>
 
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-12">
-                                                    <img src="{{ asset('upload/categoryImage/' . $cate->category_image) }}"
-                                                        alt="" style="width: 100px; height:90px">
-                                                </div>
-                                            </div>
+
 
                                         </ul>
                                     </li>
@@ -310,12 +303,12 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{ URL::to('shop') }}" aria-label="Toggle navigation"
-                                            style="font-size: 16px; font-weight:bold">Shop</a>
+                                            style="font-size: 16px; font-weight:bold">Cửa hàng</a>
                                     </li>
 
                                     <li class="nav-item">
                                         <a href="{{ URL::to('blog-list') }}"
-                                            style="font-size: 16px; font-weight:bold">Thông tin công nghê</a>
+                                            style="font-size: 16px; font-weight:bold">Thông tin công nghệ</a>
 
                                     </li>
 
@@ -337,20 +330,12 @@
                 </div>
                 <div class="col-lg-3 col-md-6 col-12">
                     <div class="nav-social">
-                        <h5 class="title">Follow Us:</h5>
+                        <h5 class="title">Theo dõi chúng tôi:</h5>
                         <ul>
                             <li>
                                 <a href="javascript:void(0)"><i class="lni lni-facebook-oval"></i></a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)"><i class="lni lni-twitter-original"></i></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)"><i class="lni lni-instagram-filled"></i></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)"><i class="lni lni-skype"></i></a>
-                            </li>
+
                         </ul>
                     </div>
 
@@ -359,8 +344,10 @@
         </div>
 
     </header>
+    <div class="pb-100" style="    background-color: #f9f9f9;">
+        @yield('content')
 
-    @yield('content')
+    </div>
 
 
     <footer class="footer">
@@ -377,19 +364,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-lg-9 col-md-8 col-12">
-                            <div class="footer-newsletter">
 
-                                <div class="newsletter-form-head">
-                                    <form action="#" method="get" target="_blank" class="newsletter-form">
-                                        <input name="EMAIL" placeholder="Email address here..." type="email">
-                                        <div class="button">
-                                            <button class="btn">Subscribe<span class="dir-part"></span></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -445,7 +420,7 @@
                             <div class="single-footer f-link">
                                 <h3>Information</h3>
                                 <ul>
-                                    <li><a href="javascript:void(0)">About Us</a></li>
+                                    <li><a href="{{ URL::to('login-auth') }}">Login Admin</a></li>
                                     <li><a href="javascript:void(0)">Contact Us</a></li>
                                     <li><a href="javascript:void(0)">Downloads</a></li>
                                     <li><a href="javascript:void(0)">Sitemap</a></li>
@@ -485,7 +460,7 @@
     <script src="{{ asset('frontend/assets/js/glightbox.min.j') }}s"></script>
 
     <script type="text/javascript">
-        //========= Hero Slider 
+        //========= Hero Slider
         tns({
             container: '.hero-slider',
             slideBy: 'page',
@@ -560,13 +535,13 @@
             $('.send_order').click(function() {
                 swal({
                         title: "Xác nhận đơn hàng",
-                        text: "Đơn hàng sẽ không được hoàn trả khi đặt,bạn có muốn đặt không?",
+                        text: "\nĐơn hàng sẽ không được hoàn trả khi đặt,bạn có muốn đặt không? \n \n",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonClass: "btn-danger",
-                        confirmButtonText: "Cảm ơn, Mua hàng",
+                        confirmButtonText: "Tiếp tục",
 
-                        cancelButtonText: "Đóng,chưa mua",
+                        cancelButtonText: "Đóng",
                         closeOnConfirm: false,
                         closeOnCancel: false
                     },
@@ -599,8 +574,13 @@
                                 },
                                 success: function() {
                                     swal("Đơn hàng",
-                                        "Đơn hàng của bạn đã được gửi thành công",
+                                        "Đơn hàng của bạn đang chờ xử lý 🥳!",
                                         "success");
+                                    setTimeout(function() {
+                                        window.location = "/";
+
+                                    }, 5000);
+
                                 }
                             });
 
@@ -672,44 +652,18 @@
     </script>
 
     <script type="text/javascript">
-        function view() {
-            if (localStorage.getItem('data') != null) {
-                var data = JSON.parse(localStorage.getItem('data'));
-                data.reverse();
-                document.getElementById('row_wishlist').style.display = 'flex';
-                document.getElementById('row_wishlist').style.margin = ' 0 auto';
-                for (var i = 0; i < data.length; i++) {
-                    var name = data[i].name;
-                    var price = data[i].price;
-                    var image = data[i].image;
-                    var url = data[i].url;
-
-                    $('#row_wishlist').append(
-                        ' <div class="col-6  col-sm-3 col-md-15 col-md-3 col-lg-3 col-md-15  "> <div class="single-product"><div class="product-image"> <img src="' +
-                        image + '" alt="#"> <div class="button"> <a href="' + url +
-                        '" class="btn"><i class="lni lni-cart"></i> Mua ngay</a> </div> </div> <div class="product-info"> <span class="category">Còn hàng</span> <h4 class="title" style="height:50px"> <a href="' +
-                        url + '"></a>' + name + ' </h4> <div class="price"> <span>' + price +
-                        'vnđ</span> </div> </div></div></div></div> ')
-                }
-            }
-        }
-
-        view();
-
         function add_wishlist(clicked_id) {
             var id = clicked_id;
             var name = document.getElementById('wishlist_productname' + id).value;
             var price = document.getElementById('wishlist_productprice' + id).value;
             var image = document.getElementById('wishlist_productimage' + id).src;
-            var url = document.getElementById('wishlist_producturl' + id).href;
-            alert('Đã thêm sản phẩm yêu thích')
+            var url = 'http://127.0.0.1:8000/chi-tiet-san-pham/' + id;
             var new_Item = {
                 'url': url,
                 'id': id,
                 'name': name,
                 'price': price,
                 'image': image
-
             }
             if (localStorage.getItem('data') == null) {
                 localStorage.setItem('data', '[]');
@@ -719,15 +673,14 @@
                 return obj.id == id;
             })
             if (matches.length) {
-                alert('san pham da yeu thich , ko the them')
+                old_data = old_data.filter(item => item.id != id)
+
+                alert('Sản phẩm này đã được xóa khỏi danh sách yêu thích!')
+                location.reload()
             } else {
                 old_data.push(new_Item);
-                $('#row_wishlist').append(
-                    '<div class="col-6  col-sm-3 col-md-15 col-md-3 col-lg-3 col-md-15  "> <div class="single-product"> <div class="product-image"> <img src="' +
-                    new_Item.image + '" alt="#"> <div class="button"> <a href="' + new_Item.url +
-                    '" class="btn"><i class="lni lni-cart"></i> Mua ngay</a> </div> </div> <div class="product-info"> <span class="category">Còn hàng</span> <h4 class="title" style="height:50px"> <a href="' +
-                    new_Item.url + '"></a>' + new_Item.name + ' </h4> <div class="price"> <span>' + new_Item.price +
-                    'vnđ</span> </div> </div></div></div>  ')
+                alert('Đã thêm sản phẩm yêu thích ❤️!')
+                location.reload()
 
             }
             localStorage.setItem('data', JSON.stringify(old_data));
@@ -900,17 +853,228 @@
         })
     </script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#sort').on('change', function() {
-                var url = $(this).val();
-                if (url) {
-                    window.location = url
-                }
-                return false;
+        @if (isset($data_js))
+
+            $(document).ready(function() {
+                $('#sort').on('change', function() {
+                    var condition = $(this).val();
+                    if (condition == "giam_dan") {
+                        var data_all_products = {{ Js::from($data_js) }};
+                        console.log(data_all_products);
+                        data_all_products.sort(function(a, b) {
+                            return b.product_price_sell - a.product_price_sell
+                        });
+                        var html_data = "";
+                        data_all_products.forEach(element => {
+
+                            html_data +=
+                                `<div class="col-6  col-sm-3 col-md-15 col-md-3 col-lg-3 col-md-15  ">
+                                            <div class="single-product">
+                                                <div class="product-image">
+                                                    <a
+                                                        href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}">
+                                                        <img src="{{ asset('upload/productImage/') }}/${element.product_image}"
+                                                            alt="#"></a>
+                                                    <div class="button">
+                                                        <a href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}"
+                                                            class="btn"><i class="lni lni-cart"></i>Đặt hàng </a>
+                                                    </div>
+
+                                                </div>
+                                                <div class="product-info">
+                                                    <h5 class="title" style="height:60px;width:100%">
+                                                        <a
+                                                            href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}">${element.product_name}</a>
+                                                    </h5>
+                                                    <ul class="review">
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><span>${element.product_view} lượt xem</span></li>
+                                                    </ul>
+                                                    <div class="price">
+                                                        <span> ${element.product_price_sell.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} vnđ</span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>`
+                        });
+                        $('#products_list').html(html_data);
+                        $('#product_paginate').html("");
+
+                    }
+                    if (condition == "tang_dan") {
+                        var data_all_products = {{ Js::from($data_js) }};
+                        console.log(data_all_products);
+                        data_all_products.sort(function(a, b) {
+                            return a.product_price_sell - b.product_price_sell
+                        });
+                        var html_data = "";
+                        data_all_products.forEach(element => {
+
+                            html_data +=
+                                `<div class="col-6  col-sm-3 col-md-15 col-md-3 col-lg-3 col-md-15  ">
+                                            <div class="single-product">
+                                                <div class="product-image">
+                                                    <a
+                                                        href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}">
+                                                        <img src="{{ asset('upload/productImage/') }}/${element.product_image}"
+                                                            alt="#"></a>
+                                                    <div class="button">
+                                                        <a href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}"
+                                                            class="btn"><i class="lni lni-cart"></i>Đặt hàng </a>
+                                                    </div>
+
+                                                </div>
+                                                <div class="product-info">
+                                                    <h5 class="title" style="height:60px;width:100%">
+                                                        <a
+                                                            href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}">${element.product_name}</a>
+                                                    </h5>
+                                                    <ul class="review">
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><span>${element.product_view} lượt xem</span></li>
+                                                    </ul>
+                                                    <div class="price">
+                                                        <span> ${element.product_price_sell.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} đ</span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>`
+                        });
+                        $('#products_list').html(html_data);
+                        $('#product_paginate').html("");
+
+                    }
+                    if (condition == "a_z") {
+                        var data_all_products = {{ Js::from($data_js) }};
+                        console.log(data_all_products);
+                        data_all_products.sort(function(a, b) {
+                            let x = a.product_name.toLowerCase()[0];
+                            let y = b.product_name.toLowerCase()[0];
+                            if (x < y) {
+                                return -1;
+                            }
+                            if (x > y) {
+                                return 1;
+                            }
+                            return 0;
+                        });
+                        var html_data = "";
+                        data_all_products.forEach(element => {
+
+                            html_data +=
+                                `<div class="col-6  col-sm-3 col-md-15 col-md-3 col-lg-3 col-md-15  ">
+                                            <div class="single-product">
+                                                <div class="product-image">
+                                                    <a
+                                                        href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}">
+                                                        <img src="{{ asset('upload/productImage/') }}/${element.product_image}"
+                                                            alt="#"></a>
+                                                    <div class="button">
+                                                        <a href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}"
+                                                            class="btn"><i class="lni lni-cart"></i>Đặt hàng </a>
+                                                    </div>
+
+                                                </div>
+                                                <div class="product-info">
+                                                    <h5 class="title" style="height:60px;width:100%">
+                                                        <a
+                                                            href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}">${element.product_name}</a>
+                                                    </h5>
+                                                    <ul class="review">
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><span>${element.product_view} lượt xem</span></li>
+                                                    </ul>
+                                                    <div class="price">
+                                                        <span> ${element.product_price_sell.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} đ</span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>`
+                        });
+                        $('#products_list').html(html_data);
+                        $('#product_paginate').html("");
+
+                    }
+                    if (condition == "z_a") {
+                        var data_all_products = {{ Js::from($data_js) }};
+                        console.log(data_all_products);
+                        data_all_products.sort(function(a, b) {
+                            let x = a.product_name.toLowerCase()[0];
+                            let y = b.product_name.toLowerCase()[0];
+                            if (x > y) {
+                                return -1;
+                            }
+                            if (x < y) {
+                                return 1;
+                            }
+                            return 0;
+                        });
+                        var html_data = "";
+                        data_all_products.forEach(element => {
+
+                            html_data +=
+                                `<div class="col-6  col-sm-3 col-md-15 col-md-3 col-lg-3 col-md-15  ">
+                                            <div class="single-product">
+                                                <div class="product-image">
+                                                    <a
+                                                        href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}">
+                                                        <img src="{{ asset('upload/productImage/') }}/${element.product_image}"
+                                                            alt="#"></a>
+                                                    <div class="button">
+                                                        <a href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}"
+                                                            class="btn"><i class="lni lni-cart"></i>Đặt hàng </a>
+                                                    </div>
+
+                                                </div>
+                                                <div class="product-info">
+                                                    <h5 class="title" style="height:60px;width:100%">
+                                                        <a
+                                                            href="{{ URL::to('/chi-tiet-san-pham/') }}/${element.product_id}">${element.product_name}</a>
+                                                    </h5>
+                                                    <ul class="review">
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><span>${element.product_view} lượt xem</span></li>
+                                                    </ul>
+                                                    <div class="price">
+                                                        <span> ${element.product_price_sell.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} đ</span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>`
+                        });
+                        $('#products_list').html(html_data);
+                        $('#product_paginate').html("");
+
+                    }
+                });
             });
-        });
+        @endif
     </script>
-     {{-- <script>
+    {{-- <script>
       $(document).ready(function() {
         $( "#slider-range" ).slider({
           range: true,
@@ -929,6 +1093,58 @@
           " - đ" + $( "#slider-range" ).slider( "values", 1 ) );
       } );
       </script> --}}
+    <script>
+        $(document).ready(function() {
+
+
+            if ($('.bbb_viewed_slider').length) {
+                var viewedSlider = $('.bbb_viewed_slider');
+
+                viewedSlider.owlCarousel({
+                    // loop:true,
+                    margin: 30,
+                    autoWidth:true,
+                    autoplay: true,
+                    autoplayTimeout: 6000,
+                    nav: false,
+                    dots: false,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        575: {
+                            items: 2
+                        },
+                        768: {
+                            items: 3
+                        },
+                        991: {
+                            items: 4
+                        },
+                        1199: {
+                            items: 5
+                        }
+                    }
+                });
+
+                if ($('.bbb_viewed_prev').length) {
+                    var prev = $('.bbb_viewed_prev');
+                    prev.on('click', function() {
+                        viewedSlider.trigger('prev.owl.carousel');
+                    });
+                }
+
+                if ($('.bbb_viewed_next').length) {
+                    var next = $('.bbb_viewed_next');
+                    next.on('click', function() {
+                        viewedSlider.trigger('next.owl.carousel');
+                    });
+                }
+            }
+
+
+        });
+    </script>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0"
         nonce="lcAm15r3"></script>
@@ -936,5 +1152,6 @@
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0"
     nonce="twQCLVmY"></script>
+@yield('js')
 
 </html>

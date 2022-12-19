@@ -7,26 +7,10 @@
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="title mb-30">
-              <h2>SỬABÀI VIẾT</h2>
+              <h2>SỬA BÀI VIẾT</h2>
             </div>
           </div>
-          <!-- end col -->
-          <div class="col-md-6">
-            <div class="breadcrumb-wrapper mb-30">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#0">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item"><a href="#0">Forms</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Form Elements
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-          <!-- end col -->
+
         </div>
         <!-- end row -->
       </div>
@@ -45,12 +29,12 @@
                 <label>Tên tiêu đề</label>
                 <input type="text" name="blog_title" placeholder="Tiêu đề" value="{{$edit->blog_title}}" />
               </div>
-              
+
               <div class="input-style-1">
                 <label>Ảnh </label>
                 <input type="file" name="blog_image" value="{{$edit->blog_image}}"  />
               </div>
-              <img src="{{asset('upload/blogImage/'.$edit->blog_image)}}" alt="#" width="50" height="50"> 
+              <img src="{{asset('upload/blogImage/'.$edit->blog_image)}}" alt="#" width="50" height="50">
               <div class="input-style-1">
                 <label>Nội dung</label>
                <textarea name="blog_content" id="" cols="30" rows="10">{{$edit->blog_content}}</textarea>
@@ -68,8 +52,8 @@
                   </select>
                 </div>
               </div>
-            
-              <button type="submit" name="update-blog"class="main-btn success-btn rounded-md btn-hover" >Thêm</button > 
+
+              <button type="submit" name="update-blog"class="main-btn success-btn rounded-md btn-hover" >Thêm</button >
             </div>
             </form>
             @endforeach

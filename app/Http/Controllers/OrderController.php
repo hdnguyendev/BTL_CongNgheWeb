@@ -13,6 +13,7 @@ use App\Models\BrandModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -43,7 +44,7 @@ class OrderController extends Controller
 			$coupon_condition = 2;
 			$coupon_number = 0;
 		}
-		
+
 		return view('admin.order.view-order')->with(compact('order_details','customer','shipping','order_details','coupon_condition','coupon_number','order','order_status'));
 
 	}
@@ -65,7 +66,7 @@ class OrderController extends Controller
 		$order->save();
 		if($order->order_status==2){
 			foreach($data['order_product_id'] as $key => $product_id){
-				
+
 				$product = Product::find($product_id);
 				$product_quantity = $product->product_soluong;
 				$product_sold = $product->product_price;
@@ -93,12 +94,12 @@ class OrderController extends Controller
 							 'product_price'=>$product_mail['product_price'],
 							 'product_qty'=>$product_mail['product_qty'],
 							);
-								
+
 						}
 				}
 			}
 			//lay shipping
-		
+
 			   $detail = OrderDetails::where('order_code',$order->order_code)->first();
 			   $feeship = $detail->product_feeship;
 			   $coupon_mail = $detail->product_coupon;
@@ -113,20 +114,20 @@ class OrderController extends Controller
 				'shipping_notes'=>$shipping->shipping_notes,
 				'shipping_method'=>$shipping->shipping_method,
 			  );
-				  
+
 			  //lay ma giam gia
 			$ordercode_mail = array(
 				'coupon_code'=>$coupon_mail,
 				'order_code'=>$detail->order_cod,
-		  
+
 			  );
-			
+
 			Mail::send('client.mail.mail-confirm-ship',['cart_array'=>$cart_array,'shipping_array'=>$shipping_array,'code'=>$ordercode_mail],function($message) use ($title_mail,$data){
 			  $message->to($data['email'])->subject($title_mail);
 			  $message->from($data['email'],$title_mail);
 			});
 		}elseif( $order->order_status==3){
-			
+
 			$now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
 			$title_mail= "ĐƠN HÀNG CỦA BẠN KHÔNG ĐƯỢC XỬ LÝ: ".''.$now;
 			$customer = Customer::where('customer_id',$order->customer_id)->first();
@@ -139,7 +140,7 @@ class OrderController extends Controller
 		}
 
 
-     
+
 	}
 	public function delete_order($order_code){
 		Order::where('order_code',$order_code)->delete();
@@ -157,20 +158,12 @@ class OrderController extends Controller
 
 	}
 	public function view_detail_history(Request $request, $order_code ){
-	
+
 		$url_canonical = $request->url();
         $cate_product = CategoryModel::Getcategory();
         $brand_product = BrandModel::Getbrand();
-		$order_details = OrderDetails::with('product')->where('order_code',$order_code)->get();
-			
-		
-			// dd($order_details_product);
-			foreach($order_details as $ord_detail){
-				$id=$ord_detail->product_id;
-			}
-			$image_product =Product::where('product_id',$id)->first();
-			$image = $image_product->product_image;
-		return view('client.profile-client.view-detail-history')->with('brand', $brand_product)->with('category', $cate_product)->with('order_details',$order_details)->with('image',$image);
-	
-}	
+		$order_details = DB::select('SELECT O.*, P.product_image FROM tbl_order_details as O, tbl_product as P WHERE P.product_id = O.product_id AND O.order_code = ?;',[$order_code]);
+		return view('client.profile-client.view-detail-history')->with('brand', $brand_product)->with('category', $cate_product)->with('order_details',$order_details);
+
+}
 }

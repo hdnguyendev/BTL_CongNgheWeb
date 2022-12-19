@@ -7,25 +7,14 @@
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="title mb-30">
-              <h2>Tables</h2>
+              <h2>DANH SÁCH MÃ GIẢM GIÁ</h2>
+
             </div>
+            <p class="text-sm mb-20">
+                <a href="{{URL('/send-coupon')}}" class="btn btn-primary">Gửi mã giảm giá</a>
+              </p>
           </div>
-          <!-- end col -->
-          <div class="col-md-6">
-            <div class="breadcrumb-wrapper mb-30">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#0">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Tables
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-          <!-- end col -->
+
         </div>
         <!-- end row -->
       </div>
@@ -36,27 +25,25 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card-style mb-30">
-              <h6 class="mb-10">DANH SÁCH MÃ GIẢM GIÁ</h6>
-              <p class="text-sm mb-20">
-                <a href="{{URL('/send-coupon')}}" class="btn btn-primary">Gửi mã giảm giá</a>
-              </p>
+
+
               <div class="table-wrapper table-responsive">
-                <table class="table">
+                <table class="table text-center">
                   <thead>
                     <tr>
-                        <th><h6>Tên mã giảm giá</th>
-                        <th><h6>Mã giảm giá</h6></th>
-                        <th><h6>Số lượng giảm giá</h6></th>
-                        <th><h6>Điều kiện giảm giá</h6></th>
-                        <th><h6>Số giảm</h6></th>
-                        <th><h6>Xoá</h6></th>
+                        <th>Tên mã giảm giá</th>
+                        <th>Mã giảm giá</th>
+                        <th>Số lượng giảm giá</th>
+                        <th>Điều kiện giảm giá</th>
+                        <th>Số giảm</th>
+                        <th>Xoá</th>
                     </tr>
                     <!-- end table row-->
                   </thead>
                   <tbody>
                     @foreach ($coupon as $key => $cou)
-                                            
-                                     
+
+
                     <tr>
                         <td>{{ $cou->coupon_name }}</td>
                         <td>{{ $cou->coupon_code }}</td>
@@ -68,7 +55,7 @@
                              Giảm theo %
                              <?php
                               }else{
-                             ?>  
+                             ?>
                              Giảm theo tiền
                              <?php
                             }
@@ -81,14 +68,14 @@
                             Giảm {{$cou->coupon_number}} %
                             <?php
                             }else{
-                            ?>  
+                            ?>
                             Giảm {{$cou->coupon_number}} k
                             <?php
                         }
                         ?>
                         </td>
-                        <td>
-                          <a  onclick="return confirm('Are you sure to delete?')" href="{{URL::to('/delete-coupon/'.$cou->coupon_id)}}" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                        <td class="text-center">
+                          <a  onclick="return confirm('Bạn có chắc chắn muốn xóa mã giảm giá này không 😥?')" href="{{URL::to('/delete-coupon/'.$cou->coupon_id)}}" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                         </td>
                     </tr>
 
@@ -96,6 +83,7 @@
                     <!-- end table row -->
                   </tbody>
                 </table>
+
                 <!-- end table -->
               </div>
             </div>

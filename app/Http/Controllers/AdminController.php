@@ -59,7 +59,7 @@ class AdminController extends Controller
          //total visitor
       $visitor = Visitor::all();
       $visitor_total = $visitor->count();
-      
+
        $visitor_current = Visitor::where('ip_address', $user_ip_address);
       $visitor_count = $visitor_current->count();
       if( $visitor_count < 1 ){
@@ -67,9 +67,9 @@ class AdminController extends Controller
         $visitor->ip_address = $user_ip_address;
         $visitor->date_vistior = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
         $visitor->save();
-        
+
       }
-     
+
       //view_product
       $product_view = Product::orderBy('product_view','DESC' )->take(10)->get();
       //view_blog
@@ -82,7 +82,7 @@ class AdminController extends Controller
       $customer = Customer::all();
       $customer_count = $customer->count();
 
-    
+
        return view('admin.dashboard',compact('visitor_total','visitor_count','visitor_of_year_count','visitor_of_this_month_count','visitor_of_last_month_count','product_view','blog_view','order_count','customer_count'));
     }
     public function dashboard(Request $request){
@@ -110,7 +110,7 @@ class AdminController extends Controller
    public function view_profile_ad($profile_id){
     $proflie = Admin::where('admin_id', $profile_id);
      return view('admin.profile.view-profile',compact('proflie'));
-  
+
    }
    public function edit_profile($admin_id){
    $proflie = Admin::where('admin_id', $admin_id);
@@ -131,15 +131,15 @@ class AdminController extends Controller
       $data['admin_image']= $new_image;
       $this->var_admin->Update_User($admin_id, $data);
       Session::put('message', 'Successfully');
-      return Redirect::to('view-profile-ad');
+      return redirect()->back();
   }
   $data['admin_image']= '';
   $this->var_admin->Update_User($admin_id ,$data);
   Session::put('message', 'Successfully');
   return Redirect::to('show_dashboard');
-      
+
    }
-   
+
    public function setting_home(){
     return view('admin.layout-web.setting-layout');
    }

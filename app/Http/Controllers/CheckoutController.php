@@ -28,8 +28,8 @@ class CheckoutController extends Controller
 {
   private $var_product;
   private $var_checkout;
- 
-  
+
+
   public function checkout(Request $request)
   {
     // Session::forget('fee');
@@ -39,7 +39,7 @@ class CheckoutController extends Controller
     $city = City::orderBy('matp', 'DESC')->get();
     return view('client.checkout.checkout')->with('brand', $brand_product)->with('category', $cate_product)->with('city', $city)->with('url_canonical', $url_canonical);
   }
-  
+
   public function save_checkout_customer(Request $request)
   {
     $data = array();
@@ -60,7 +60,7 @@ class CheckoutController extends Controller
     $brand_product = BrandModel::Getbrand();
     return view('client.checkout.payment')->with('brands', $brand_product)->with('category', $cate_product);
   }
- 
+
   public function order_place(Request $request)
   {
 
@@ -166,7 +166,7 @@ class CheckoutController extends Controller
     }
   }
 
-   
+
   public function confirm_order(Request $request){
     $data = $request->all();
     if($data['order_coupon']!='no'){
@@ -246,7 +246,7 @@ class CheckoutController extends Controller
         'shipping_notes'=>$data['shipping_notes'],
         'shipping_method'=>$data['shipping_method'],
       );
-      
+
       //lay ma giam gia
     $ordercode_mail = array(
       'coupon_code'=>$coupon_mail,
@@ -261,9 +261,9 @@ class CheckoutController extends Controller
     Session::forget('fee');
     Session::forget('cart');
     session_destroy();
-    return redirect('/');
+    return redirect()->route('home');
 }
-  
+
   public function del_fee()
   {
     Session::forget('fee');

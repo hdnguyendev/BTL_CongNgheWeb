@@ -26,10 +26,10 @@ class BlogsController extends Controller
     return view('admin.blog.all-blog',compact('all'));
    }
    public function add_new_blog(){
-      
+
     return view('admin.blog.add-blog');
    }
-   public function save_blog(Request $request){ 
+   public function save_blog(Request $request){
     $data = array();
     $data['blog_title'] = $request->blog_title;
     $get_img = $request->file('blog_image');
@@ -42,7 +42,7 @@ class BlogsController extends Controller
         $data['blog_content'] = $request->blog_content;
         $data['content_short'] = $request->content_short;
         $data['blog_status']  = $request->blog_status;
-      
+
         $this->var_blog->Save_blog($data);
     //     $this->var_blog->Save_blog($data);
     //     Session::put('message', 'Successfully');
@@ -60,7 +60,7 @@ class BlogsController extends Controller
     $edit_by_id = Blog::edit_by_id($blog_id);
     return view('admin.blog.edit-blog',compact('edit_by_id'));
    }
-   public function update_blog(Request $request ,$blog_id){ 
+   public function update_blog(Request $request ,$blog_id){
     $data = array();
     $data['blog_title'] = $request->blog_title;
     $get_img = $request->file('blog_image');
@@ -73,11 +73,10 @@ class BlogsController extends Controller
         $data['blog_content'] = $request->blog_content;
         $data['content_short'] = $request->content_short;
         $data['blog_status']  = $request->blog_status;
-      
+
         Blog::update_blog($blog_id,$data);
-    
+
     }
-    $data['blog_image']= '';
     $data['blog_content'] = $request->blog_content;
     $data['content_short'] = $request->content_short;
     $data['blog_status']  = $request->blog_status;
@@ -86,7 +85,7 @@ class BlogsController extends Controller
     Session::put('message', 'Successfully');
 
    }
-   public function delete_blog($blog_id){ 
+   public function delete_blog($blog_id){
        Blog::where('blog_id',$blog_id)->delete();
    }
   public function blog_list(Request $request){
@@ -105,7 +104,7 @@ class BlogsController extends Controller
      $detail_blog = $this->var_blog->show_detail_blog($blog_id);
    //update view
    $blog = Blog::where('blog_id',$blog_id )->first();
-   $blog->blog_view = $blog->blog_view + 1; 
+   $blog->blog_view = $blog->blog_view + 1;
    $blog->save();
 
     return view('client.blog.blog-detail')->with('brands', $brand_product)

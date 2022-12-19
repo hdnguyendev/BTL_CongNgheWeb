@@ -7,26 +7,11 @@
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="title mb-30">
-              <h2>Form Elements</h2>
+              <h2>THÊM DANH MỤC MỚI</h2>
             </div>
           </div>
           <!-- end col -->
-          <div class="col-md-6">
-            <div class="breadcrumb-wrapper mb-30">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#0">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item"><a href="#0">Forms</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Form Elements
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-          <!-- end col -->
+
         </div>
         <!-- end row -->
       </div>
@@ -40,18 +25,18 @@
           <div class="col-lg-12">
             <!-- input style start -->
             <div class="card-style mb-30">
-              <h6 class="mb-25">Input Fields</h6>
+              <h6 class="mb-25">Điền thông tin danh mục</h6>
               <div class="input-style-1">
                 <label>Tên danh mục</label>
-                <input type="text" name="category_product_name"  placeholder="Danh mục" />
+                <input type="text" name="category_product_name"  placeholder="Nhập tên danh mục"  required/>
                 @error('category_product_name')
                 <span style="color:red;">{{$message}}</span>
                 @enderror
               </div>
-              
+
               <div class="input-style-1">
                 <label>Ảnh </label>
-                <input type="file" name="category_product_image"  placeholder="Full Name" />
+                <input type="file" name="category_product_image" required/>
                 @error('category_product_image')
                 <span style="color:red;">{{$message}}</span>
                 @enderror
@@ -65,10 +50,10 @@
                   </select>
                 </div>
               </div>
-              <button type="submit" name="add_category_product" class="main-btn success-btn rounded-md btn-hover" >Thêm</button > 
+              <button type="submit" name="add_category_product" class="main-btn success-btn rounded-md btn-hover" >Thêm</button >
             </div>
-           
-           
+
+
           </div>
           <!-- end col -->
         </div>

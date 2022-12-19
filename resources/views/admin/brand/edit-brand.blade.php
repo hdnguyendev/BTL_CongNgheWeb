@@ -7,26 +7,10 @@
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="title mb-30">
-              <h2>Form Elements</h2>
+              <h2>CHỈNH SỬA THƯƠNG HIỆU SẢN PHẨM</h2>
             </div>
           </div>
-          <!-- end col -->
-          <div class="col-md-6">
-            <div class="breadcrumb-wrapper mb-30">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#0">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item"><a href="#0">Forms</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    CHỈNH SỬA THƯƠNG HIỆU SẢN PHẨM
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-          <!-- end col -->
+
         </div>
         <!-- end row -->
       </div>
@@ -41,12 +25,12 @@
             <form action="{{URL::to('update-brand/'.$value_edit->brand_id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
               <div class="card-style mb-30">
-              <h6 class="mb-25">Input Fields</h6>
+              <h6 class="mb-25">Điền thông tin thương hiệu</h6>
               <div class="input-style-1">
                 <label>Tên thương hiệu</label>
-                <input type="text" name="brand_product_name" value="{{$value_edit->brand_name}}" />
+                <input type="text" name="brand_product_name" value="{{$value_edit->brand_name}}" required/>
               </div>
-              
+
               <div class="input-style-1">
                 <label>Ảnh </label>
                 <input type="file" name="brand_product_image" value="{{$value_edit->brand_image}}" />
@@ -61,8 +45,8 @@
                   </select>
                 </div>
               </div>
-            
-              <button type="submit" name="add_brand_product"class="main-btn success-btn rounded-md btn-hover" >Thêm</button > 
+
+              <button type="submit" name="add_brand_product"class="main-btn success-btn rounded-md btn-hover" >Thêm</button >
             </div>
             </form>
            @endforeach

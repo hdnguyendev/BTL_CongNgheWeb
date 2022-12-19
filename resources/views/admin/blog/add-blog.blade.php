@@ -10,23 +10,7 @@
               <h2>THÊM BÀI VIẾT</h2>
             </div>
           </div>
-          <!-- end col -->
-          <div class="col-md-6">
-            <div class="breadcrumb-wrapper mb-30">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#0">Dashboard</a>
-                  </li>
-                  <li class="breadcrumb-item"><a href="#0">Forms</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Form Elements
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-          <!-- end col -->
+          
         </div>
         <!-- end row -->
       </div>
@@ -42,12 +26,12 @@
               <div class="card-style mb-30">
               <div class="input-style-1">
                 <label>Tên tiêu đề</label>
-                <input type="text" name="blog_title" placeholder="Tiêu đề" />
+                <input type="text" name="blog_title" placeholder="Tiêu đề" required />
               </div>
-              
+
               <div class="input-style-1">
                 <label>Ảnh </label>
-                <input type="file" name="blog_image"  />
+                <input type="file" name="blog_image"  required/>
               </div>
               <div class="input-style-1">
                 <label>Nội dung</label>
@@ -66,11 +50,11 @@
                   </select>
                 </div>
               </div>
-            
-              <button type="submit" name="add-blog"class="main-btn success-btn rounded-md btn-hover" >Thêm</button > 
+
+              <button type="submit" name="add-blog"class="main-btn success-btn rounded-md btn-hover" >Thêm</button >
             </div>
             </form>
-           
+
           </div>
           <!-- end col -->
         </div>

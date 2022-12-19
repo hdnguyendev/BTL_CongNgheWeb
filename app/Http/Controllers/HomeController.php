@@ -19,7 +19,7 @@ class HomeController extends Controller
 {
    private $var;
    private $aq;
-   
+
    public function __construct()
    {
        $this->var=new HomeModel();
@@ -29,7 +29,7 @@ class HomeController extends Controller
    public function index(Request $request){
     if (!isset($_SESSION['carts' ])) {
         $_SESSION['carts'] = array();
-    } 
+    }
     // session_destroy();
      $category = $this->var->Getcategory();
      $brand = $this->var->Getbrand();
@@ -37,13 +37,13 @@ class HomeController extends Controller
      $all_monitor = $this->var->show_monitor();
      $laptop = $this->var->show_laptop();
      $keyboard = $this->var->show_keyboard();
-     
+
      $url_canonical = $request->url();
      $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->inRandomOrder()->take(6)->get();
      $all_blog = $this->var_blog->show_blog();
      $noibat = Product::orderBy('product_view','DESC' )->take(6)->get();
      $one_image =Slider::where('slider_status','1')->orderBy('slider_id','DESC' )->inRandomOrder()->take(2);
-  
+
     return view('client.home')->with('category',$category)->with('brands',$brand)
     ->with('all_products',$all_products)->with('url_canonical',$url_canonical)
     ->with('all_monitor',$all_monitor)->with('laptop',$laptop)
@@ -53,20 +53,10 @@ class HomeController extends Controller
    public function shop(Request $request){
     $category = $this->var->Getcategory();
     $brand = $this->var->Getbrand();
-    // $all_products = $this->var->Show_shop_product();
-    $all_products = Product::paginate(16);
+    $all_products = Product::select('product_name','product_view','product_id','product_price_sell','product_image')->paginate(8);
+    $data_js = Product::select('product_name','product_view','product_id','product_price_sell','product_image')->get();
     $url_canonical = $request->url();
-    $min_price=Product::min('product_price');
-    $max_price=Product::max('product_price');
-    $max_price_range= $max_price + 1000000;
-    if(isset($_GET['start_price']) && $_GET['end_price']){
-        $min_price = $_GET['start_price'];
-        $max_price = $_GET['end_price'];
-       $price = Product::whereBetween('product_price',[$min_price,$max_price])->orderBy('product_id','ASC')->paginate(10);
-       dd($price);
-    } 
-    return view('client.shop.shop')->with('category',$category)->with('brands',$brand)->with('all_products',$all_products)->with('url_canonical',$url_canonical)
-    ->with('max',$max_price)->with('min',$min_price)->with('max_price_range',$max_price_range);
+    return view('client.shop.shop')->with('category',$category)->with('brands',$brand)->with('all_products',$all_products)->with('url_canonical',$url_canonical)->with('data_js', $data_js);
    }
    public function search(Request $request){
     $keyword = $request->keyword;
@@ -80,7 +70,7 @@ class HomeController extends Controller
     $to_name = "Anh Quan";
     $to_email = "nguyenanhquandz01102002@gmail.com";//send to this email
 
-    $data = array('name'=>'Mail tu tai khoan khach hangf','body'=>'Noi dung ve van de...'); 
+    $data = array('name'=>'Mail tu tai khoan khach hangf','body'=>'Noi dung ve van de...');
 
     Mail::send('page.mail.send-mail',$data,function($message) use ($to_name,$to_email){
         $message->to($to_email)->subject('test mail nhé');//send this mail with subject
@@ -115,5 +105,5 @@ class HomeController extends Controller
     ->with('keyboard',$keyboard);
    }
 
-  
+
 }
